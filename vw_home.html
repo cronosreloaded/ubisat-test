@@ -12,12 +12,20 @@
         <div class="card-header">
         </div>
 
-        <div class="card-body p-15">
-                <button class="btn btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-my-location"></i> Última Posición
+        <div class="card-body p-15">                
+                <button  data-content="vw_ultimapos" class="btn btnMenu btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-my-location pull-left"></i> Última Posición
                 </button>
-                <button class="btn btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-time-restore"></i> Historial
+                <button  data-content="vw_historial" class="btn btnMenu btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-time-restore pull-left"></i> Historial
                 </button>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$(".btnMenu").click(function(){
+    var cont = $(this).data("content")+".html";
+    $("#content").load(cont);
+    $(".ma-backdrop").click();
+});
+
+</script>
     

@@ -18,6 +18,7 @@
  */
 var app = {
     // Application Constructor
+    version : 1,
     cliente: 0,
     usuario: 0,
     centroMapaLat: 0,

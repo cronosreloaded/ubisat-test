@@ -5,16 +5,14 @@
         <ul class="actions">
             <li>
                 <button data-toggle="dropdown" data-target="ddown-vehiculos" style="margin-top:-15px" href="" aria-expanded="false" class="btn btn-dropdown btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-car"></i></button>
-                <div id="ddown-vehiculos" class="dropdown-menu dropdown-menu-lg" style="margin-left: -260px;">
+                <div id="ddown-vehiculos" class="dropdown-menu dropdown-menu-lg" style="margin-left: -200px;">
                     <div class="list-group">
                         <div class="lg-header">
                             Vehículos
                         </div>
                         <div class="lg-body">
                             <div id="listaVehiculos" class="list-group-item" style="max-height: 300px; overflow: auto">
-                                <div class="checkbox m-b-15">
-                                    <label><input type="checkbox" class="vehiculos" checked="" value="Todos"><i class="input-helper"></i>Todos</label>
-                                </div> 
+                                
                             </div>  
 
                         </div>  
@@ -24,9 +22,41 @@
             </li>  
             <li>
                 <button data-toggle="dropdown" data-target="ddown-fechas" style="margin-top:-15px" href="" aria-expanded="false" class="btn btn-dropdown btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-calendar-check"></i></button>
+                <div id="ddown-fechas" class="dropdown-menu dropdown-menu-lg" style="margin-left: -200px;">
+                        <div class="list-group">
+                            <div class="lg-header">
+                                Período
+                            </div>
+                            <div class="lg-body">
+                                <div id="fechas" class="list-group-item" style="max-height: 300px; overflow: auto">
+                                    <h4>Desde</h4>
+                                    <div class="row">
+                                        <div class="col-xs-4"><label>Fecha:</label></div>
+                                        <div class="col-xs-8"><input type="date" id="fechaDesde"/></div>                                        
+                                    </div>
+
+                                    <div class="row m-t-10">
+                                        <div class="col-xs-4 "><label>Hora:</label></div>
+                                        <div class="col-xs-8 "><input type="time" id="horaDesde"/></div>                                                                                
+                                    </div>
+                                    <h4>Hasta</h4>
+                                    <div class="row">
+                                        <div class="col-xs-4"><label>Fecha:</label></div>
+                                        <div class="col-xs-8"><input type="date" id="fechaHasta"/></div>                                                                                                                        
+                                    </div>
+                                    <div class="row m-t-10">
+                                        <div class="col-xs-4 "><label>Hora:</label></div>
+                                        <div class="col-xs-8 "><input type="time" id="horaHasta"/></div>                                        
+                                    </div>
+                                </div>  
+    
+                            </div>  
+    
+                        </div>
+                    </div>
             </li>
             <li>
-                <button data-toggle="dropdown" data-target="ddown-buscar" style="margin-top:-15px" href="" aria-expanded="false" class="btn btn-dropdown btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-check"></i></button>
+                <button id="btnBuscar"style="margin-top:-15px" href="" aria-expanded="false" class="btn btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-check"></i></button>
             </li>             
         </ul>
 
@@ -40,24 +70,46 @@
 </div>
 
 <div id="tmp_vehiculo" style="display: none">
-    <div class="checkbox m-b-15">
-        <label><input type="checkbox" class="{{class}}" checked="" value="{{id}}"><i class="input-helper"></i>{{vehiculo}}</label>
+    <div class="radio m-b-15">
+        <label><input type="radio" name="vehiculo" class="{{class}}" value="{{id}}"><i class="input-helper"></i>{{vehiculo}}</label>
     </div>
 </div>
 <script type="text/javascript">
 var markerVehiculos = new Array();
+var infowindow = "";""
+var listado = "";
+var lista = "";
+var bounds = "";
+var lineSymbol = ""; 
+var recorrido = "";
+
 function initMap(){
     var token = JSON.parse(localStorage.getItem("ubi-token"));
     center = token.centerMap;
     centroMapaLat = parseFloat(center.split(',')[0]);
     centroMapaLng = parseFloat(center.split(',')[1]);
-    console.log("Instanciando mapa");
+    
     map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: centroMapaLat, lng: centroMapaLng},
-          zoom: 13
-    });
-    console.log("Mapa instanciado OK");
-    var temporizador = setInterval(buscarPosiciones, 15000);
+        center: {lat: centroMapaLat, lng: centroMapaLng},
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP ,
+        disableDefaultUI: true,
+        zoomControl: true,
+        mapTypeControl: true
+    });  
+    lineSymbol = {path: google.maps.SymbolPath.FORWARD_OPEN_ARROW};
+    bounds = new google.maps.LatLngBounds();    
+    infowindow = new google.maps.InfoWindow();
+    recorrido = new google.maps.Polyline({
+    path: [],
+    icons: [{icon: lineSymbol,
+    scale: 15,
+    repeat: "100"}],
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+});
 }
 
 app.buscarVehiculos(agregarVehiculos);
@@ -67,6 +119,104 @@ $(".btn-dropdown").click(function(){
     $("#"+target).toggle();
 })
 
+$("#btnBuscar").click(function(){
+    buscarHistorial();    
+})
+
+function buscarHistorial(){
+    var data = new Object();
+    data.vehiculo = $(".vehiculos:checked").val();
+    data.fd = $("#fechaDesde").val();
+    data.hd = $("#horaDesde").val();
+    data.fh = $("#fechaHasta").val();
+    data.hh = $("#horaHasta").val();
+
+    $.ajax({
+			type: "POST",
+			url: "http://dev.ubisat.com.ar/api/usuario/getHistorial",
+			data: "data="+JSON.stringify(data),
+			success:function(data){
+                $("#mensaje").html(data);
+				mostrarHistorial(data);                                
+			}
+		})
+}
+
+function mostrarHistorial(lista){
+    console.log(lista);
+	marcadores = new Array();
+	bounds = new google.maps.LatLngBounds();
+	recorrido.setMap(null);
+	//lista = listado;
+    //Direcciones.buscarDirecciones(lista);
+	var puntos = new Array();
+	//console.log(JSON.parse(lista));
+	for (i=0; i<lista.length; i++){
+		puntos.push({lat: parseFloat(lista[i].latitude), lng: parseFloat(lista[i].longitude)});
+		var myLatLng = new google.maps.LatLng(parseFloat(lista[i].latitude), parseFloat(lista[i].longitude));	
+		var pos = new google.maps.LatLng(parseFloat(lista[i].latitude), parseFloat(lista[i].longitude));	
+		
+		bounds.extend(myLatLng);
+
+		var scaledSize = new google.maps.Size(10,10);
+		var origin = new google.maps.Point(0,0);
+		var anchor = new google.maps.Point(0,0);
+
+		var icono = {
+			url:"img/iconovehiculos/"+getColorIcon(lista[i].speed)+"-20.png",
+			scaledSize: scaledSize,			
+			origin: origin,
+			anchor: anchor
+		}
+
+		var marker = new google.maps.Marker({
+	      position: pos,
+	      map: map,
+	      icon: icono
+	    });
+
+	    marker.id = i;
+	      
+        google.maps.event.addListener(marker, 'click', function () {                	
+        	var content = getIWContent(lista[this.id]);
+            infowindow.setContent(content);
+            infowindow.open(map, this);
+        });
+	    marcadores.push(marker);   
+	}	
+	centrarMapa();
+	var rep = 100/lista.length*4;
+	recorrido.setOptions({icons: [{icon: lineSymbol,scale: 10,repeat: rep+"%"}]})
+	recorrido.setPath(puntos);
+
+    recorrido.setMap(map);
+
+}
+
+function getColorIcon(velocidad){
+	if (velocidad == 0){
+		return "rojo";
+	}
+	if (velocidad > 10){
+		return "verde";
+	}else{
+		return "amarillo";
+	}
+
+}
+
+
+function toggleIconos(){
+	var newMap = null
+	if ($("#mostrarIconos").is(":checked")){
+		newMap = map
+	}
+	for(i=0; i< marcadores.length; i++){
+		marcadores[i].setMap(newMap);
+	}
+
+}
+
 function agregarVehiculos(){
     let tmp_Vehiculo = $("#tmp_vehiculo").html();
     for(i=0;i<app.vehiculos.length; i++){
@@ -75,90 +225,8 @@ function agregarVehiculos(){
         $("#listaVehiculos").append(html);
     }
     
-    $(".vehiculos").unbind('click');
-    $(".vehiculos").click(function(){        
-        if ($(this).val() == "Todos"){
-            var estado = $(this).is(":checked");
-            $(".vehiculos").each(function(i,v){
-                $(v).prop("checked", estado);
-            })
-        }
-        buscarPosiciones();
-    })
-    buscarPosiciones();
-}
-
-function buscarPosiciones(){
-    console.log("buscando");
-    var lista = new Array();
-	$(".vehiculos").each(function(i,v){
-		if(i>0 && $(v).is(":checked")){			
-			lista.push($(v).val());
-		}
-    })
-	if (lista.length >0){
-		//$("#preloader").show();
-		$.ajax({
-			type: "POST",
-			url: "http://dev.ubisat.com.ar/api/usuario/getPosiciones",
-			data: "lista="+lista,
-			success:function(data){
-                $("#mensaje").html(data);
-				mostrarPos(JSON.parse(data));                
-                //centrarMapa();
-			}
-		})
-	}else{
-		/*for(i=0;i<markerVehiculos.length;i++){		
-			markerVehiculos[i].setMap(null);
-		}*/
-	}
-}
-
-function mostrarPos(data){		
-	for(i=0;i<markerVehiculos.length;i++){		
-		markerVehiculos[i].setMap(null);
-	}
-	var markerBounds = new google.maps.LatLngBounds();
-	var mostrarNombre = $("#mostrarNombre").is(":checked");
-	markerVehiculos = new Array();
-	lista = data;
-	for(i=0;i<data.length;i++){
-		var image = {
-		    url: 'img/iconovehiculos/'+getIcon(data[i].TipoVehiculo,data[i].speed, data[i].Icono),
-		    origin: new google.maps.Point(0,0),	
-            scaledSize:  new google.maps.Size(60, 60)       	    
-		};
-		var ubicacion = { lat: parseFloat(data[i].latitude), lng: parseFloat(data[i].longitude) };	
-		
-		if (mostrarNombre){
-			var marker = new MarkerWithLabel({
-			    position: ubicacion,
-			    icon: image,
-			    map:map,
-			    labelAnchor: new google.maps.Point(40, 10),
-			    labelClass: "labels", 
-			    labelContent: data[i].name,		    
-	    		labelStyle: {opacity: 0.8},
-			});
-		}else{
-			var marker = new google.maps.Marker({
-			    position: ubicacion,
-			    icon: image,
-			    map:map,			   
-			});
-		}	
-		marker.id = i;	
-		google.maps.event.addListener(marker, 'click', function () {                	
-        	var content = getIWContent(lista[this.id]);
-            infowindow.setContent(content);
-            infowindow.open(map, this);
-        });
-		markerVehiculos.push(marker);
-		//map.setCenter(ubicacion);
-	}
-	//map.fitBounds(markerBounds);
-	
+    $(".vehiculos").unbind('click');   
+    
 }
 
 function getIcon(tipo, speed, icon){	
@@ -173,6 +241,17 @@ function getIcon(tipo, speed, icon){
 	return t;
 }
 
+function centrarMapa(){
+	var markerBounds = new google.maps.LatLngBounds();
+	for(i=0;i<marcadores.length;i++){		
+		markerBounds.extend(marcadores[i].position);
+	}
+	map.fitBounds(markerBounds);
+	var listener = google.maps.event.addListener(map, "idle", function() { 
+		if (map.getZoom() > 13) map.setZoom(13); 
+	  	google.maps.event.removeListener(listener); 
+	});
+}
 
 </script>    
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6-FGR1j1KT413lng13WOH-uT4oiGQtfs&callback=initMap"></script>
