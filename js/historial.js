@@ -22,6 +22,7 @@ var historial = {
             zoomControl: true,
             mapTypeControl: true
         });  
+        this.infowindow = new google.maps.InfoWindow();
         this.lineSymbol = {path: google.maps.SymbolPath.FORWARD_OPEN_ARROW};
         this.bounds = new google.maps.LatLngBounds();    
         this.infowindow = new google.maps.InfoWindow();
@@ -81,7 +82,7 @@ var historial = {
             var anchor = new google.maps.Point(0,0);
     
             var icono = {
-                url:"img/iconoposition/"+this.getColorIcon(lista[i].speed)+"-20.png",
+                url:"img/iconoposition/icono-"+this.getColorIcon(lista[i].speed)+"-20.png",
                 scaledSize: scaledSize,			
                 origin: origin,
                 anchor: anchor
@@ -96,18 +97,18 @@ var historial = {
             marker.id = i;
               
             google.maps.event.addListener(marker, 'click', function () {                	
-                var content = getIWContent(lista[this.id]);
-                infowindow.setContent(content);
-                infowindow.open(map, this);
+                var content = historial.getIWContent(lista[this.id]);
+                historial.infowindow.setContent(content);
+                historial.infowindow.open(this.map, this);
             });
             this.marcadores.push(marker);   
         }	
         this.centrarMapa();
         var rep = 100/lista.length*4;
-        this.recorrido.setOptions({icons: [{icon: lineSymbol,scale: 10,repeat: rep+"%"}]})
+        this.recorrido.setOptions({icons: [{icon: this.lineSymbol,scale: 10,repeat: rep+"%"}]})
         this.recorrido.setPath(puntos);
     
-        this.recorrido.setMap(map);    
+        this.recorrido.setMap(this.map);    
     },
     getColorIcon: function(velocidad){
         if (velocidad == 0){
@@ -146,10 +147,26 @@ var historial = {
         for(i=0;i<this.marcadores.length;i++){		
             markerBounds.extend(this.marcadores[i].position);
         }
-        map.fitBounds(markerBounds);
+        this.map.fitBounds(markerBounds);
         var listener = google.maps.event.addListener(map, "idle", function() { 
             if (this.map.getZoom() > 13) map.setZoom(13); 
               google.maps.event.removeListener(listener); 
         });
+    },
+
+    getIWContent: function(datos){
+        var direccion = datos.direccion
+        if (datos.direccion == null || datos.direccion == ""){
+            direccion = "<span id=\"spBuscarDir\">...</span";
+            buscarDireccionIW(datos.latitude, datos.longitude);
+        }
+        var html = $("#htmlIW").html();
+        var fecha = datos.fecha.substr(8,2)+"-"+datos.fecha.substr(5,2)+"-"+datos.fecha.substr(0,4)
+        html = html.replace("{fecha}", fecha);
+        html = html.replace("{hora}", datos.fecha.substr(11,8));
+        html = html.replace("{velocidad}", datos.speed);
+        html = html.replace("{direccion}", direccion);	
+        
+        return html;
     }
 };
