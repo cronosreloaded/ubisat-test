@@ -61,6 +61,9 @@ var historial = {
                 success:function(data){
                     $("#mensaje").html(data);
                     historial.mostrarHistorial(data);                                
+                },
+                error: function(data){
+                    app.mostrarError(data);
                 }
             })
     },

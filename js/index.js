@@ -87,9 +87,12 @@ var app = {
                     localStorage.setItem("ubi-token", JSON.stringify(data.payload));
                     window.location.replace("home.html");                    
                 }else{
-                    alert("ERROR");
+                    app.mostrarError("Usuario/Contraseña no válidos o inhabilitado. Contacte a Soporte para obtener ayuda");
                 }
-            }  
+            },
+            error:function(data){
+                app.mostrarError(data);
+            }
         })
     },
     buscarVehiculos: function(fcallback){
@@ -109,7 +112,10 @@ var app = {
                     }else{
                         alert("ERROR");
                     }
-                }  
+                },
+                error: function(data){
+                    app.mostrarError(data);
+                } 
             })
         }else{
             //cargar vehiculos en variable
@@ -120,5 +126,10 @@ var app = {
     loginSuccess: function(data){
         
     },
+    mostrarError: function(data){
+        var html = $("#htmlAlerta").html();
+        $("#textoError").html(data);
+        $("#modalError").modal('show');
+    }
     
 };

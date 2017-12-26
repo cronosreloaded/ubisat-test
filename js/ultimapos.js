@@ -38,7 +38,7 @@ var ultimapos = {
                     //centrarMapa();
                 },
                 error: function(data){
-
+                    app.mostrarError(data);
                 }
             })
         }else{

@@ -46,3 +46,25 @@
 <script type="text/javascript">
 app.initialize()
 </script>
+<div id="htmlAlert" style="display: none">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        {{texto}}
+    </div>
+</div>
+<div id="modalError" class="modal fade" data-modal-color="red" id="modalColor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p>Se ha producido un error: <span id="textoErrror"></span></p>
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
