@@ -36,8 +36,13 @@ var historial = {
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
-        $(".btn-dropdown").click(function(){
-            var target = $(this).data("target");    
+        $(".btn-dropdown").click(function(){            
+            var target = $(this).data("target"); 
+            if (target == "ddown-vehiculos"){
+                $("#ddown-fechas").hide();
+            }else{
+                $("#ddown-vehiculos").hide();
+            }
             $("#"+target).toggle();
         })
         
