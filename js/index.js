@@ -110,7 +110,7 @@ var app = {
                         app.vehiculos=data.payload;
                         fcallback();
                     }else{
-                        alert("ERROR");
+                        app.mostrarError("Error al cargar Vehículos");
                     }
                 },
                 error: function(data){
