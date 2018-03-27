@@ -8,8 +8,8 @@ var historial = {
     recorrido : "",
     map: "",
     marcadores: "",
-    token : JSON.parse(localStorage.getItem("ubi-token")),
-    initMap : function(){        
+    token : JSON.parse(localStorage.getItem("ubi-token")),    
+    init : function(){        
         center = this.token.centerMap;
         centroMapaLat = parseFloat(center.split(',')[0]);
         centroMapaLng = parseFloat(center.split(',')[1]);

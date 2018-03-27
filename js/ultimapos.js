@@ -1,15 +1,17 @@
 var ultimapos = {
     markerVehiculos: new Array(),
     token : JSON.parse(localStorage.getItem("ubi-token")),
-    initMap: function(){        
+    init: function(){        
         center = this.token.centerMap;
-        centroMapaLat = parseFloat(center.split(',')[0]);
-        centroMapaLng = parseFloat(center.split(',')[1]);
-    
-        map = new google.maps.Map(document.getElementById('map'), {
-              center: {lat: centroMapaLat, lng: centroMapaLng},
+        if (center){
+            app.centroMapaLat = parseFloat(center.split(',')[0]);
+            app.centroMapaLng = parseFloat(center.split(',')[1]);
+        }        
+        map = plugin.google.maps.Map.getMap(document.getElementById('map'));
+        /*map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: app.centroMapaLat, lng: app.centroMapaLng},
               zoom: 13
-        });
+        });*/
         $(".btn-dropdown").click(function(){
             var target = $(this).data("target");    
             $("#"+target).toggle();

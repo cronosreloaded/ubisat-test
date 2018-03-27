@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="block-header">
+        <h2>Alertas</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-10">
+            <div class="row">
+                <div class="col-xs-6">
+                    <i class="zmdi zmdi-car"></i>
+                    <div class="select">
+                        <select class="form-control" id="vehiculo">
+                            <option value="0">...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <i class="zmdi zmdi-calendar-check"></i>
+                    <input type="date" id="fecha" style="width: 110px"/> 
+                </div>
+                <div class="col-xs-2 pull-right">
+                    <button id="btnBuscar" onClick="alertas.buscarAlertas()" href="#" aria-expanded="false" class="btn btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-check"></i></button>
+                </div>
+            </div>
+            <div id="reporte" style="width: 100%; min-height: 65%"></div>            
+        </div>
+    </div>    
+</div>
+<div id="htmlItemAlerta" style="display: none">
+    <table id="td-itemAlerta">
+        <tr>
+            <td style="min-width: 100px">{{hora}}</td>
+            <td rowspan="2" style="text-transform: none;vertical-align:middle;padding-left:5px">{{ubicacion}}</td>
+        </tr>
+        <tr>
+            <td style="border-top:0px;text-transform: none;padding:2px">
+                <div class="bgm-bluegray" style="border-radius: 5px 5px 5px 5px; text-align:center; color:white">
+                    {{velocidad}}
+                </div>
+            </td>            
+        </tr>    
+    </table>
+</div>
+
+<script type="text/javascript">
+alertas.inicializar();
+</script>    

@@ -24,6 +24,7 @@ var app = {
     centroMapaLat: 0,
     centroMapaLng: 0,
     initialize: function() {
+        console.log("Inicialize");
         this.bindEvents();
         $("#content").load("vw_home.html");
     },
@@ -36,9 +37,19 @@ var app = {
         $(".btn-login").click(this.login);
         $(".menuItem").click(function(){
             var cont = $(this).data("content")+".html";
-            $("#content").load(cont);
-            $(".ma-backdrop").click()    
+            $("#content").load(cont, app.initContent);
+            $(".ma-backdrop").click();    
         })
+    },
+    initContent(content){
+        switch (content){
+            case "vw_ultimapos":
+                ultimapos.init();
+                break;
+            case "vw_historial":
+                historial.init();
+                break;
+        }
     },
     // deviceready Event Handler
     //

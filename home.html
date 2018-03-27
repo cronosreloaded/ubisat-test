@@ -1,12 +1,14 @@
 <title>Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.bootgrid.min.css" />
 <link href="css/animate.min.css" rel="stylesheet"  type="text/css">
 <link href="css/material-design-iconic-font.min.css" rel="stylesheet"  type="text/css">
 <link href="css/app.css" rel="stylesheet"  type="text/css">
 <link href="css/waves.min.css" rel="stylesheet"  type="text/css">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/waves.min.js"></script>
+<script type="text/javascript" src="js/jquery.bootgrid.min.js"></script>
 <header id="header" class="clearfix" data-ma-theme="blue">
         <div style="width: 100%; text-align:center;position:absolute">
             <h2 style="color:white;display:none">UBISat</h2>
@@ -29,6 +31,8 @@
                 <li><a href="#" class="menuItem" data-content="vw_home"><i class="zmdi zmdi-home"></i> Home</a></li>
                 <li><a href="#" class="menuItem" data-content="vw_ultimapos"><i class="zmdi zmdi-my-location"></i> Última Posición</a></li>
                 <li><a href="#" class="menuItem" data-content="vw_historial"><i class="zmdi zmdi-time-restore"></i> Historial</a></li>
+                <li><a href="#" class="menuItem" data-content="vw_alertas"><i class="zmdi zmdi-notifications"></i> Alertas</a></li>
+                <li><a href="#" class="menuItem" data-content="vw_velocidades"><i class="zmdi zmdi-run"></i> Velocidades</a></li>
                 <li><a href="#" class="menuItem" data-content="logout"><i class="zmdi zmdi-power"></i> Salir</a></li>                
             </ul>
             
@@ -43,6 +47,8 @@
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/ultimapos.js"></script>
 <script type="text/javascript" src="js/historial.js"></script>
+<script type="text/javascript" src="js/alertas.js"></script>
+<script type="text/javascript" src="js/velocidades.js"></script>
 <script type="text/javascript">
 app.initialize()
 </script>
@@ -68,3 +74,5 @@ app.initialize()
         </div>
     </div>
 </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6-FGR1j1KT413lng13WOH-uT4oiGQtfs"></script>

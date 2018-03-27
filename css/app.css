@@ -2262,7 +2262,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 15px;
+  padding: 2px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #F5F5F5;
@@ -2309,7 +2309,7 @@ th {
   border-bottom-width: 2px;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
+  background-color: #f9f9f9a6;
 }
 .table-hover > tbody > tr:hover {
   background-color: #f9f9f9;
@@ -10378,7 +10378,7 @@ h6 small,
 .table > thead > tr > td:first-child,
 .table > tbody > tr > td:first-child,
 .table > tfoot > tr > td:first-child {
-  padding-left: 30px;
+  padding-left: 0px;
 }
 .table > thead > tr > th:last-child,
 .table > tbody > tr > th:last-child,
