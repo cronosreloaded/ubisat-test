@@ -7,11 +7,11 @@ var ultimapos = {
             app.centroMapaLat = parseFloat(center.split(',')[0]);
             app.centroMapaLng = parseFloat(center.split(',')[1]);
         }        
-        map = plugin.google.maps.Map.getMap(document.getElementById('map'));
-        /*map = new google.maps.Map(document.getElementById('map'), {
+        //map = plugin.google.maps.Map.getMap(document.getElementById('map'));
+        map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: app.centroMapaLat, lng: app.centroMapaLng},
               zoom: 13
-        });*/
+        });
         $(".btn-dropdown").click(function(){
             var target = $(this).data("target");    
             $("#"+target).toggle();
@@ -29,7 +29,7 @@ var ultimapos = {
             }
         })
         if (lista.length >0){
-            //$("#preloader").show();
+            $("#preloader").show();
             $.ajax({
                 type: "POST",
                 url: "http://dev.ubisat.com.ar/api/usuario/getPosiciones",
