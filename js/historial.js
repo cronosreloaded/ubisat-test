@@ -11,8 +11,15 @@ var historial = {
     token : JSON.parse(localStorage.getItem("ubi-token")),    
     init : function(){        
         center = this.token.centerMap;
-        centroMapaLat = parseFloat(center.split(',')[0]);
-        centroMapaLng = parseFloat(center.split(',')[1]);
+        if (center){
+            centroMapaLat = parseFloat(center.split(',')[0]);
+            centroMapaLng = parseFloat(center.split(',')[1]);
+        }else{
+            centroMapaLat = -32.954202;
+            centroMapaLng = -60.6581827;
+        }
+
+        
         
         this.map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: centroMapaLat, lng: centroMapaLng},
