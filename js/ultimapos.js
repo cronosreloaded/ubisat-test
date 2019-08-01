@@ -32,7 +32,7 @@ var ultimapos = {
             $("#preloader").show();
             $.ajax({
                 type: "POST",
-                url: "http://dev.ubisat.com.ar/api/usuario/getPosiciones",
+                url: "https://dev.ubisat.com.ar/api/usuario/getPosiciones",
                 data: "lista="+lista,
                 success:function(data){
                     $("#mensaje").html(data);

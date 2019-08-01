@@ -90,7 +90,7 @@ var app = {
         usr.pwd = $("#ubi-password").val();
         $.ajax({
             type: "POST",
-            url:"http://dev.ubisat.com.ar/api/usuario/login",
+            url:"https://dev.ubisat.com.ar/api/usuario/login",
             //contentType: "application/json; charset=utf-8",
             data:"user="+JSON.stringify(usr),
             success:function(data){
@@ -112,7 +112,7 @@ var app = {
             let id = JSON.parse(localStorage.getItem("ubi-token")).id_cliente;
             $.ajax({
                 type: "POST",
-                url:"http://dev.ubisat.com.ar/api/usuario/getVehiculos",
+                url:"https://dev.ubisat.com.ar/api/usuario/getVehiculos",
                 //contentType: "application/json; charset=utf-8",
                 data:"data="+id,
                 success:function(data){

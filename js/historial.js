@@ -68,7 +68,7 @@ var historial = {
         data.hh = $("#horaHasta").val();    
         $.ajax({
                 type: "POST",
-                url: "http://dev.ubisat.com.ar/api/usuario/getHistorial",
+                url: "https://dev.ubisat.com.ar/api/usuario/getHistorial",
                 data: "data="+JSON.stringify(data),
                 success:function(data){
                     $("#mensaje").html(data);

@@ -11,7 +11,7 @@ var alertas = {
         if (vehiculo != "" && fecha != ""){            
             $.ajax({
                 type: "POST",
-                url: "http://dev.ubisat.com.ar/api/alertas/getAlertas",
+                url: "https://dev.ubisat.com.ar/api/alertas/getAlertas",
                 data: "vehiculo="+vehiculo+"&fecha="+fecha+"&cliente="+cliente,
                 success:function(data){                    
                     app.json = data;

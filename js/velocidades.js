@@ -12,7 +12,7 @@ var velocidades = {
         if (vehiculo != "" && fechaDesde != "" && fechaHasta != "" && velocidad > 0){            
             $.ajax({
                 type: "POST",
-                url: "http://dev.ubisat.com.ar/api/velocidades/getVelocidades",
+                url: "https://dev.ubisat.com.ar/api/velocidades/getVelocidades",
                 data: "vehiculo="+vehiculo+"&fechaDesde="+fechaDesde+"&fechaHasta="+fechaHasta+"&velocidad="+velocidad+"&cliente="+cliente,
                 success:function(data){                    
                     app.json = data;
